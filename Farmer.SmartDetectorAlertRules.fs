@@ -4,6 +4,7 @@ open Farmer
 open Farmer.Builders
 open System
 open System.Xml
+open ActionGroups
 
 let smartDetectorAlertRules =
     // ResourceType("microsoft.alertsmanagement/smartdetectoralertrules", "2021-04-01")
@@ -19,7 +20,7 @@ type SmartDetectorAlertRules =
     { Name: ResourceName
       Description: string
       Scope: string
-      ActionGroups: string seq
+      ActionGroups: ActionGroups seq
       Frequency: TimeSpan
       Severity: Severity }
 

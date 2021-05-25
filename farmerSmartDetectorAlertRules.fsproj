@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Farmer.ActionGroups.fs" />
     <Compile Include="Farmer.SmartDetectorAlertRules.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
