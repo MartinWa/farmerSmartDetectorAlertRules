@@ -1,9 +1,18 @@
 open Farmer
+open Farmer.Builders
 open FarmerExtension.SmartDetectorAlertRules
+open System
+
+let ai = appInsights { name "myAI" }
 
 let smartDetectorAlertRules =
     { Name = ResourceName "test"
-      Severity = Sev1 }
+      Description =
+          "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls."
+      Scope = ai.InstrumentationKey.Value
+      ActionGroups = []
+      Frequency = TimeSpan.FromMinutes(1.0)
+      Severity = Severity.Sev3 }
 
 let deployment =
     arm {
