@@ -19,7 +19,7 @@ type Severity =
 type SmartDetectorAlertRules =
     { Name: ResourceName
       Description: string
-      Scope: string
+      Scope: AppInsightsConfig
       ActionGroups: ActionGroups seq
       Frequency: TimeSpan
       Severity: Severity }
