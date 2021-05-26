@@ -16,6 +16,13 @@ type Severity =
     | Sev3
     | Sev4
 
+    member this.AsString =
+        match this with
+        | Sev1 -> "Sev1"
+        | Sev2 -> "Sev2"
+        | Sev3 -> "Sev3"
+        | Sev4 -> "Sev4"
+
 type SmartDetectorAlertRules =
     { Name: ResourceName
       Description: string
@@ -33,7 +40,7 @@ type SmartDetectorAlertRules =
                    properties =
                        {| description = this.Description
                           state = "Enabled"
-                          severity = this.Severity.GetType
+                          severity = this.Severity.AsString
                           frequency = XmlConvert.ToString(this.Frequency)
                           detector = {| id = "FailureAnomaliesDetector" |}
                           scope = [ this.Scope ]
