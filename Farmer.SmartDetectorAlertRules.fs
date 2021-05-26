@@ -1,6 +1,7 @@
 module FarmerExtension.SmartDetectorAlertRules
 
 open Farmer
+open Farmer.Arm
 open Farmer.Builders
 open System
 open System.Xml
@@ -26,9 +27,9 @@ type Severity =
 type SmartDetectorAlertRules =
     { Name: ResourceName
       Description: string
-      Scope: AppInsightsConfig
+      ApplicationInsightsName: ResourceName
       ActionGroups: ActionGroups seq
-      Frequency: TimeSpan
+      Frequency: TimeSpan  //IsoDateTime 
       Severity: Severity }
 
     interface IArmResource with
@@ -43,8 +44,16 @@ type SmartDetectorAlertRules =
                           severity = this.Severity.AsString
                           frequency = XmlConvert.ToString(this.Frequency)
                           detector = {| id = "FailureAnomaliesDetector" |}
-                          scope = [ this.Scope ]
-                          actionGroups = {| groupIds = this.ActionGroups |} |} |}
+                          scope =
+                              [ (Insights.components.resourceId this.ApplicationInsightsName)
+                                    .ArmExpression
+                                    .Value ]
+                          actionGroups =
+                              {| groupIds =
+                                     [ for actionGroup in this.ActionGroups do
+                                           (ActionGroups.actionGroups.resourceId actionGroup.Name)
+                                               .ArmExpression
+                                               .Value ] |} |} |}
             :> _
 
     interface IBuilder with
@@ -54,7 +63,7 @@ type SmartDetectorAlertRules =
         member this.BuildResources location =
             [ { Name = this.Name
                 Description = this.Description
-                Scope = this.Scope
+                ApplicationInsightsName = this.ApplicationInsightsName
                 ActionGroups = this.ActionGroups
                 Frequency = this.Frequency
                 Severity = this.Severity } ]

@@ -15,7 +15,7 @@ let smartDetectorAlertRules =
     { Name = ResourceName "test"
       Description =
           "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls."
-      Scope = ai
+      ApplicationInsightsName = ai.Name
       ActionGroups = [ actionGroup ]
       Frequency = TimeSpan.FromMinutes(1.0)
       Severity = Severity.Sev3 }
