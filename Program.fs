@@ -9,7 +9,10 @@ let ai = appInsights { name "myAI" }
 let actionGroup =
     { Name = ResourceName "Application Insights Smart Detection"
       Location = Location.WestEurope
-      ShortName = "SmartDetect" }
+      ShortName = "SmartDetect"
+      EmailReceivers =
+          [ { Name = "Alert group"
+              EmailAddress = "test@mail.com" } ] }
 
 let smartDetectorAlertRules =
     { Name = ResourceName "test"
